@@ -1,0 +1,9 @@
+version: '2'
+services:
+  php71:
+    image: gpcentre/php71
+    volumes:
+      - ../etc/php-fpm/php-fpm.d/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ../etc/php-fpm/conf.d/zz-docker.ini:/usr/local/etc/php/conf.d/zz-docker.ini
+      - "$VAR_ROOT/www:/var/www"
+      - "$VAR_ROOT/lib/php-fpm:/var/lib/php-fpm"
