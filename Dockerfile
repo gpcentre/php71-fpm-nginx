@@ -1,17 +1,16 @@
-FROM php:fpm
+FROM  php:fpm-alpine
 MAINTAINER Philip G <gp@gpcentre.net>
 
-# Some useful debugging tools I use locally for development
-RUN apt-get update && apt-get dist-upgrade -y && \
-    apt-get install -y wget curl locate zip unzip telnet vim && \ 
-    apt-get clean && \
-    apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apk add --update --no-cache libtool build-base autoconf \
+    freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev libmcrypt-dev
 
-#RUN pecl install xdebug-2.5.0 \
+RUN docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) \
+    gd opcache pdo_mysql mcrypt
+
+RUN apk del build-base autoconf freetype libpng libjpeg-turbo freetype-dev libjpeg-turbo-dev
+
+# RUN pecl install xdebug-2.5.0 \
 #    && docker-php-ext-enable xdebug
-
-RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 ENV HOME /root
 ENV TERM xterm
