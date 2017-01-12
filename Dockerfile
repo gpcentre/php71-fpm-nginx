@@ -13,7 +13,7 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
 # py2-pip is only in the edge repo
     py2-pip 
 
-
+WORKDIR /var/www
 
 RUN docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
 	&& docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) gd opcache pdo_mysql mcrypt \
